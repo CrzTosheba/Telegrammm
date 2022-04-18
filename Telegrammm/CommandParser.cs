@@ -9,9 +9,9 @@ namespace TelegramBot
 {
     public class CommandParser
     {
-        private List<IChatCommand> Command;
+        private  List<IChatCommand> Command;
 
-        private AddingController addingController;
+        private  AddingController addingController;
 
         public CommandParser()
         {

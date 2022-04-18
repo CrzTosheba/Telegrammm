@@ -26,6 +26,7 @@ namespace TelegramBot
             parser.AddCommand(new DeleteWordCommand());
             parser.AddCommand(new TrainingCommand(botClient));
             parser.AddCommand(new StopTrainingCommand());
+            parser.AddCommand(new HelpCommand());
         }
 
         public async Task MakeAnswer(Conversation chat)

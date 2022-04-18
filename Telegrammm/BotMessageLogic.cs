@@ -9,11 +9,11 @@ namespace TelegramBot
 {
     public class BotMessageLogic
     {
-        private Messenger messanger;
+        private readonly Messenger messanger;
 
-        private Dictionary<long, Conversation> chatList;
+        private readonly Dictionary<long, Conversation> chatList;
 
-        private ITelegramBotClient botClient;
+        private readonly ITelegramBotClient botClient;
 
         public BotMessageLogic(ITelegramBotClient botClient)
         {

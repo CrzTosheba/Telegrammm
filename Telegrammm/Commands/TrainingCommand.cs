@@ -11,13 +11,13 @@ namespace TelegramBot.Commands
     public class TrainingCommand : AbstractCommand, IKeyBoardCommand
     {
 
-        private ITelegramBotClient botClient;
+        private  ITelegramBotClient botClient;
 
-        private Dictionary<long, TrainingType> training;
+        private  Dictionary<long, TrainingType> training;
 
-        private Dictionary<long, Conversation> trainingChats;
+        private  Dictionary<long, Conversation> trainingChats;
 
-        private Dictionary<long, string> activeWord;
+        private  Dictionary<long, string> activeWord;
 
         public TrainingCommand(ITelegramBotClient botClient)
         {

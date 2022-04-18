@@ -9,9 +9,9 @@ namespace TelegramBot
 {
     public class Conversation
     {
-        private Chat telegramChat;
+        private readonly Chat telegramChat;
 
-        private List<Message> telegramMessages;
+        private readonly List<Message> telegramMessages;
 
         public Dictionary<string, Word> dictionary;
 

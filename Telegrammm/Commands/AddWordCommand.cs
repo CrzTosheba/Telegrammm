@@ -10,9 +10,9 @@ namespace TelegramBot.Commands
     public class AddWordCommand : AbstractCommand
     {
 
-        private ITelegramBotClient botClient;
+        private readonly ITelegramBotClient botClient;
 
-        private Dictionary<long, Word> Buffer;
+        private readonly Dictionary<long, Word> Buffer;
 
         public AddWordCommand(ITelegramBotClient botClient)
         {

@@ -16,5 +16,8 @@ namespace TelegramBot.Commands
             return message.Substring(CommandText.Length + 1);
         }
 
+        public bool HasArgs(string message)
+            => message.Length > CommandText.Length + 1;
+
     }
 }

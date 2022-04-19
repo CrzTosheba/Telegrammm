@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Telegram.Bot;
 
 namespace TelegramBot.Commands
 {
@@ -11,17 +12,32 @@ namespace TelegramBot.Commands
             CommandText = "/deleteword";
         }
 
+
         public bool DoAction(Conversation chat)
         {
-            var message = chat.GetLastMessage();
-
-            var text = ClearMessageFromCommand(message);
-
-            if (chat.dictionary.ContainsKey(text))
+            try
             {
+                var message = chat.GetLastMessage();
+
+                if (chat.IsTraningInProcess)
+                    return false;
+
+                if (!HasArgs(message))
+                    return false;
+
+                var text = ClearMessageFromCommand(message);
+
+                if (!chat.dictionary.ContainsKey(text))
+                    return false;
+
                 chat.dictionary.Remove(text);
                 return true;
             }
+            catch (Exception ex)
+            { 
+                
+            }
+            
 
             return false; 
         }
@@ -30,7 +46,5 @@ namespace TelegramBot.Commands
         { 
             return "Слово успешно удалено!";
         }
-
-
     }
 }

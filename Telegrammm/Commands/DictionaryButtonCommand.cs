@@ -11,41 +11,58 @@ namespace TelegramBot.Commands
     public class DictionaryButtonCommand : AbstractCommand, IKeyBoardCommand
     {
         ITelegramBotClient botClient;
-        
-            
-           
+        private Dictionary<long, Conversation> chats;
+
         public DictionaryButtonCommand(ITelegramBotClient botClient)
         {
             this.botClient = botClient;
 
             CommandText = "/dictionary";
+
+            chats = new Dictionary<long, Conversation>();
         }
 
         public void AddCallBack(Conversation chat)
         {
+            chats[chat.GetId()] = chat;
+
             this.botClient.OnCallbackQuery -= Bot_Callback;
             this.botClient.OnCallbackQuery += Bot_Callback;
         }
 
         private async void Bot_Callback(object sender, CallbackQueryEventArgs e)
         {
-            var text = "";
+            var chatId = e.CallbackQuery.Message.Chat.Id;
+
+            if (!chats.ContainsKey(chatId))
+                return;
+
+            var chat = chats[chatId];
+
+            string msg = "";
 
             switch (e.CallbackQuery.Data)
             {
                 case "Русские слова":
-                    text = @""; 
+                    msg = string.Join("\n", chat.dictionary.Values.Select(w => GetRussian(w))); 
                     break;
                 case "Английские слова":
-                    text = @"";
-                    break;
                 default:
+                    msg = string.Join("\n", chat.dictionary.Values.Select(w => GetEnglish(w)));
                     break;
             }
 
-            await botClient.SendTextMessageAsync(e.CallbackQuery.Message.Chat.Id, text);
+            if (string.IsNullOrEmpty(msg))
+                msg = "Словарь пустой";
+
+            await botClient.SendTextMessageAsync(chatId, msg);
             await botClient.AnswerCallbackQueryAsync(e.CallbackQuery.Id);
         }
+
+        private string GetRussian(Word w)
+            => $"{w.Russian}: {w.English} ({w.Theme})";
+        private string GetEnglish(Word w)
+            => $"{w.English}: {w.Russian} ({w.Theme})";
 
         public InlineKeyboardMarkup ReturnKeyBoard()
         {
